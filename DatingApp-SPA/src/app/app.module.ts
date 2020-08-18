@@ -6,6 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RouterModule } from '@angular/router';
+import { JwtModule } from '@auth0/angular-jwt';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery'
 
 import { AppComponent } from './app.component';
 import { ValueComponent } from './value/value.component';
@@ -15,8 +18,15 @@ import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessagesComponent } from './messages/messages.component';
 import { ListComponent } from './list/list.component';
-import { MemberListComponent } from './member-list/member-list.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { ErrorComponent } from './error/error.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+
+export function tokenGetter(){
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [													
@@ -28,17 +38,28 @@ import { ErrorComponent } from './error/error.component';
       MessagesComponent,
       ListComponent,
       MemberListComponent,
-      ErrorComponent
+      ErrorComponent,
+      MemberCardComponent,
+      MemberDetailComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
+      NgxGalleryModule,
       FormsModule,
       BrowserAnimationsModule,
+      TabsModule.forRoot(),
       BsDropdownModule.forRoot(),
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      JwtModule.forRoot({
+         config:{
+            tokenGetter : tokenGetter,
+            allowedDomains: ['localhost:5000'],
+            disallowedRoutes: ['localhost:5000/api/auth']
+         }
+      })
    ],
-   providers: [ErrorInterceptorProvider],
+   providers: [ErrorInterceptorProvider,MemberDetailResolver],
    bootstrap: [
       AppComponent
    ]
