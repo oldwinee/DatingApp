@@ -8,7 +8,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { NgxGalleryModule } from '@kolkov/ngx-gallery'
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 import { AppComponent } from './app.component';
 import { ValueComponent } from './value/value.component';
@@ -23,45 +23,50 @@ import { ErrorComponent } from './error/error.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
 
-export function tokenGetter(){
+export function tokenGetter() {
    return localStorage.getItem('token');
 }
 
 @NgModule({
-   declarations: [													
-      AppComponent,
-      ValueComponent,
-      NavComponent,
-      HomeComponent,
-      RegisterComponent,
-      MessagesComponent,
-      ListComponent,
-      MemberListComponent,
-      ErrorComponent,
-      MemberCardComponent,
-      MemberDetailComponent
-   ],
-   imports: [
-      BrowserModule,
-      HttpClientModule,
-      NgxGalleryModule,
-      FormsModule,
-      BrowserAnimationsModule,
-      TabsModule.forRoot(),
-      BsDropdownModule.forRoot(),
-      RouterModule.forRoot(appRoutes),
-      JwtModule.forRoot({
-         config:{
-            tokenGetter : tokenGetter,
-            allowedDomains: ['localhost:5000'],
-            disallowedRoutes: ['localhost:5000/api/auth']
-         }
-      })
-   ],
-   providers: [ErrorInterceptorProvider,MemberDetailResolver],
-   bootstrap: [
-      AppComponent
-   ]
+  declarations: [
+    AppComponent,
+    ValueComponent,
+    NavComponent,
+    HomeComponent,
+    RegisterComponent,
+    MessagesComponent,
+    ListComponent,
+    MemberListComponent,
+    ErrorComponent,
+    MemberCardComponent,
+    MemberDetailComponent,
+    MemberEditComponent,
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    NgxGalleryModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    TabsModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    RouterModule.forRoot(appRoutes),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:5000'],
+        disallowedRoutes: ['localhost:5000/api/auth'],
+      },
+    }),
+  ],
+  providers: [
+   ErrorInterceptorProvider, 
+   MemberDetailResolver,
+   PreventUnsavedChanges
+],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
