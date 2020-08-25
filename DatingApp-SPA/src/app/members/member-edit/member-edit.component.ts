@@ -30,6 +30,7 @@ export class MemberEditComponent implements OnInit {
     this.userService.getUser(this.authservice.decodedToken.nameid).subscribe(
       (user) => {
         this.user = user;
+        this.authservice.changeMemberPhoto(user.photoUrl);
       },
       (error) => {
         this.alertify.error(error);
@@ -44,5 +45,10 @@ export class MemberEditComponent implements OnInit {
     },error=>{
       this.alertify.error(error);
     });
+  }
+
+  updateMainPhoto(photoUrl){
+    this.user.photoUrl = photoUrl; 
+    this.authservice.changeMemberPhoto(photoUrl);   
   }
 }

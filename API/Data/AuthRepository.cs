@@ -14,7 +14,7 @@ namespace API.Data
         }
         public async Task<User> Login(string username, string password)
         {
-            var user = await this.context.Users.FirstOrDefaultAsync(x=>x.Username == username.ToLower());
+            var user = await this.context.Users.Include(x=>x.Photos).FirstOrDefaultAsync(x=>x.Username == username.ToLower());
            
             if(user == null) return null;
 
