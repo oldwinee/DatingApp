@@ -28,19 +28,18 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegisterDto userRgisterDto)
+        public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
         {
-            userRgisterDto.Username = userRgisterDto.Username.ToLower();
-            if (await this.repo.UserExist(userRgisterDto.Username)) return BadRequest("User already exists");
+            userRegisterDto.Username = userRegisterDto.Username.ToLower();
+            if (await this.repo.UserExist(userRegisterDto.Username)) return BadRequest("User already exists");
 
-            var userToCreate = new User
-            {
-                Username = userRgisterDto.Username
-            };
+            var userToCreate = this.mapper.Map<User>(userRegisterDto);
 
-            var createdUser = this.repo.Register(userToCreate, userRgisterDto.Password);
+            var createdUser = await this.repo.Register(userToCreate, userRegisterDto.Password);
 
-            return StatusCode(201);
+            var userToReturn = this.mapper.Map<UserForDetailedDto>(createdUser);
+
+            return CreatedAtRoute("GetUser", new {Controller = "Users", id = createdUser.Id}, userToReturn);
         }
 
         [HttpPost("login")]

@@ -1,10 +1,12 @@
 import { appRoutes } from './routes';
 import { ErrorInterceptorProvider } from './_servises/error.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -16,7 +18,6 @@ import { ValueComponent } from './value/value.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessagesComponent } from './messages/messages.component';
 import { ListComponent } from './list/list.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
@@ -50,13 +51,15 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     NgxGalleryModule,
     FormsModule,
+    ReactiveFormsModule,
     FileUploadModule,
-    BrowserAnimationsModule,
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
